@@ -24,11 +24,11 @@ public class Attack : MonoBehaviour
                     other.GetComponent<Enemy>().Knockback(hit, forceTime);
 
                 }
-                if (other.gameObject.CompareTag("Player"))
-                {
-                    hit.GetComponent<PlayerTouchActions>().currentstate = State.Stagger;
-                    other.GetComponent<PlayerTouchActions>().Knockback(forceTime);
 
+                if (other.GetComponentInParent<PlayerTouchActions>().currentState != State.Stagger)
+                {
+                    hit.GetComponent<PlayerTouchActions>().currentState = State.Stagger;
+                    other.GetComponent<PlayerTouchActions>().Knockback(forceTime);
                 }
             }
         }

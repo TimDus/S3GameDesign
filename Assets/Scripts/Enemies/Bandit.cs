@@ -10,12 +10,16 @@ public class Bandit : Enemy
     public Transform target;
     public float chaseRadius;
     public float attackRadius;
+    bool attacked;
+    bool cooldownStart;
     Animator animator;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        cooldownStart = false;
+        attacked = false;
         myRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         target = GameObject.FindWithTag("Player").transform;
@@ -24,14 +28,23 @@ public class Bandit : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (currentState != State.Stagger || currentState != State.Attack)
+        if(!attacked)
         {
-            CheckDistance();
+            cooldownStart = false;
+            if (currentState != State.Stagger || currentState != State.Attack)
+            {
+                CheckDistance();
+            }
+            if (Vector3.Distance(target.position, transform.position) <= attackRadius && currentState != State.Attack)
+            {
+                currentState = State.Attack;
+                StartCoroutine(Attack(target.position.x, target.position.y));
+            }
         }
-        if (Vector3.Distance(target.position, transform.position) <= attackRadius && currentState != State.Attack)
+        if(attacked && !cooldownStart)
         {
-            currentState = State.Attack;
-            StartCoroutine(Attack(target.position.x, target.position.y));
+            cooldownStart = true;
+            StartCoroutine(Countdown());
         }
     }
 
@@ -95,6 +108,14 @@ public class Bandit : Enemy
         animator.SetBool("attacking", false);
         yield return new WaitForSeconds(1f);
         currentState = State.Idle;
+        MoveEnd();
+        attacked = true;
+    }
+
+    private IEnumerator Countdown()
+    {
+        yield return new WaitForSeconds(1.5f);
+        attacked = false;
     }
 
     private void MoveEnd()

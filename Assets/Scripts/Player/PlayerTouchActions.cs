@@ -8,7 +8,7 @@ public class PlayerTouchActions : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] SwipeDetect swipeDetect;
     bool isMoving = false;
-    public State currentstate = State.Idle;
+    public State currentState = State.Idle;
 
     Rigidbody2D rb;
     Animator animator;
@@ -29,19 +29,19 @@ public class PlayerTouchActions : MonoBehaviour
 
     void Update()
     {
-        if (currentstate == State.Walk || currentstate == State.Idle)
+        if (currentState == State.Walk || currentState == State.Idle)
         {
             MovementUpdateDistance();
             CheckForTouch();
             MovementActionCheckEnd();
         }
 
-        if (currentstate != State.Attack && currentstate != State.Stagger)
+        if (currentState != State.Attack && currentState != State.Stagger)
         {
             SwipeDetect.OnSwipe += SwipeDetect_OnSwipe;
             if(data.Direction != SwipeDirection.NotSet)
             {
-                currentstate = State.Attack;
+                currentState = State.Attack;
                 StartCoroutine(AttackCo());
             }
         }
@@ -50,7 +50,7 @@ public class PlayerTouchActions : MonoBehaviour
     private IEnumerator AttackCo()
     {
         MoveEnd();
-        currentstate = State.Attack;
+        currentState = State.Attack;
         switch (data.Direction)
         {
             case SwipeDirection.Right:
@@ -74,7 +74,7 @@ public class PlayerTouchActions : MonoBehaviour
         yield return new WaitForSeconds(.01f);
         animator.SetBool("attacking", false);
         yield return new WaitForSeconds(.3f);
-        currentstate = State.Idle;
+        currentState = State.Idle;
         data.Direction = SwipeDirection.NotSet;
     }
 
@@ -95,7 +95,7 @@ public class PlayerTouchActions : MonoBehaviour
                 whereToMove = (touchPosition - transform.position).normalized;
                 rb.velocity = new Vector2(whereToMove.x * moveSpeed, whereToMove.y * moveSpeed);
                 PlayCorrectAnimation(whereToMove.x, whereToMove.y);
-                currentstate = State.Walk;
+                currentState = State.Walk;
             }
         }
     }
@@ -124,7 +124,7 @@ public class PlayerTouchActions : MonoBehaviour
 
     private void MoveEnd()
     {
-        currentstate = State.Idle;
+        currentState = State.Idle;
         isMoving = false;
         rb.velocity = Vector2.zero;
         animator.SetBool("moving", false);
@@ -186,7 +186,7 @@ public class PlayerTouchActions : MonoBehaviour
         {
             yield return new WaitForSeconds(forceTime);
             rb.velocity = Vector2.zero;
-            currentstate = State.Idle;
+            currentState = State.Idle;
         }
     }
 }
