@@ -25,10 +25,13 @@ public class Attack : MonoBehaviour
 
                 }
 
-                if (other.GetComponentInParent<PlayerTouchActions>().currentState != State.Stagger)
+                if(other.GetComponentInParent<PlayerTouchActions>() != null)
                 {
-                    hit.GetComponent<PlayerTouchActions>().currentState = State.Stagger;
-                    other.GetComponent<PlayerTouchActions>().Knockback(forceTime);
+                    if (other.GetComponentInParent<PlayerTouchActions>().currentState != State.Stagger)
+                    {
+                        hit.GetComponent<PlayerTouchActions>().currentState = State.Stagger;
+                        other.GetComponent<PlayerTouchActions>().Knockback(forceTime);
+                    }
                 }
             }
         }

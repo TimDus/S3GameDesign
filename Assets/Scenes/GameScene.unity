@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   swipeDetect: {fileID: 365265887}
-  currentstate: 2
+  currentState: 2
 --- !u!61 &365265882
 BoxCollider2D:
   m_ObjectHideFlags: 0
