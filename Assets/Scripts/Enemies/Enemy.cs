@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public State currentState;
-    public int health;
+    public int health = 3;
     public string enemyName;
     public int baseAttack;
     public float moveSpeed;
@@ -24,5 +24,6 @@ public class Enemy : MonoBehaviour
             currentState = State.Idle;
             GetComponent<Rigidbody2D>().isKinematic = true;
         }
+        health--;
     }
 }

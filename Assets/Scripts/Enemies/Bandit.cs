@@ -18,6 +18,7 @@ public class Bandit : Enemy
     // Start is called before the first frame update
     void Start()
     {
+        health = 3;
         cooldownStart = false;
         attacked = false;
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -45,6 +46,10 @@ public class Bandit : Enemy
         {
             cooldownStart = true;
             StartCoroutine(Countdown());
+        }
+        if(health <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 
@@ -114,7 +119,7 @@ public class Bandit : Enemy
 
     private IEnumerator Countdown()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3f);
         attacked = false;
     }
 

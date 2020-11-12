@@ -35,8 +35,7 @@ public class PlayerTouchActions : MonoBehaviour
             CheckForTouch();
             MovementActionCheckEnd();
         }
-
-        if (currentState != State.Attack && currentState != State.Stagger)
+        if (currentState != State.Attack && currentState != State.Stagger && currentState != State.Interact)
         {
             SwipeDetect.OnSwipe += SwipeDetect_OnSwipe;
             if(data.Direction != SwipeDirection.NotSet)
