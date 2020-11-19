@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     private SwipeData data;
     public bool playerInRange;
-    GameObject hit;
+    [SerializeField]GameObject hit;
 
     // Start is called before the first frame update
     void Update()
